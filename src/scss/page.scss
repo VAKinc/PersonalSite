@@ -1,0 +1,19 @@
+@import "./vars.scss";
+
+#contentArea{
+    margin: 5rem;
+    padding: 1rem;
+    background-color: black;
+
+    @include media-lg{
+        margin: 10rem;
+        padding: 2rem;
+    }
+}
+
+#bgCanvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}

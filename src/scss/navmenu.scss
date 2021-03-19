@@ -1,0 +1,146 @@
+@import "./vars.scss";
+
+$navMenuWidth: 20rem;
+$navMenuWidthLG: 100rem;
+
+#navMenu{
+    position: fixed;
+    font-size: 16px;
+    top: 0;
+    right: 0;
+    width: $navMenuWidth;
+    color: white;
+    opacity: 0;
+    z-index: 10;
+    display: inline-block;
+    text-align: right;
+
+    -webkit-transition: opacity $transitionFast ease;
+    transition: opacity $transitionFast ease;
+
+    @include media-lg{
+        font-size: 32px;
+        width: $navMenuWidthLG;
+    }
+
+    a{
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-link{
+        font-size: 3rem;
+        z-index: 10;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: fit-content;
+        margin: 0.25rem;
+        padding: 0.25rem;
+        right: 0;
+
+        -webkit-transition: right $transitionFast ease;
+        transition: right $transitionFast ease;
+
+        @include media-lg{
+            font-size: 9rem;
+        }
+    }
+
+    .nav-link.active{
+        background-color: grey;
+    }
+
+    .nav-link:hover{
+        // background-color: darkslategrey;
+        right: 2rem;
+
+        -webkit-transition: right $transitionFast ease;
+        transition: right $transitionFast ease;
+
+        @include media-lg{
+            right: 5rem;
+        }
+    }
+}
+
+#navMenu.active{
+    opacity: 1;
+
+    -webkit-transition: opacity $transitionFast ease;
+    transition: opacity $transitionFast ease;
+}
+
+#navMenuScreenWipe{
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0;
+    z-index: -1;
+    display: inline-block;
+    text-align: right;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0px black;
+
+    -webkit-transition: opacity $transitionFast ease, box-shadow $transitionMedium ease;
+    transition: opacity $transitionFast ease, box-shadow $transitionMedium ease;
+}
+
+#navMenuScreenWipe.active{
+    opacity: 1;
+    box-shadow: 0 0 0 250vw black;
+
+    @include media-lg{
+        box-shadow: 0 0 0 150vw black;
+    }
+
+    -webkit-transition: box-shadow $transitionSlow ease;
+    transition: box-shadow $transitionSlow ease;
+}
+
+#navMenuButton{
+    background-color: black;
+    font-size: 1rem;
+    color: white;
+    padding: 1rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+
+    -webkit-transition: opacity $transitionFast ease;
+    transition: opacity $transitionFast ease;
+
+    @include media-lg{
+        font-size: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+#navMenuButton.active{
+    opacity: 0;
+
+    -webkit-transition: opacity $transitionFast ease;
+    transition: opacity $transitionFast ease;
+}
+
+#navMenuButtonClose{
+    font-size: 1rem;
+    color: white;
+    padding: 1rem;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    @include media-lg{
+        font-size: 1.5rem;
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,31 @@
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+
+@mixin media-sm {
+  @media (min-width: ($sm)) {
+    @content;
+  }
+}
+@mixin media-md {
+  @media (min-width: ($md)) {
+    @content;
+  }
+}
+@mixin media-lg {
+  @media (min-width: ($lg)) {
+    @content;
+  }
+}
+@mixin media-xl {
+  @media (min-width: ($xl)) {
+    @content;
+  }
+}
+
+$transitionSuperFast: 0.1s;
+$transitionFast: 0.5s;
+$transitionMedium: 1s;
+$transitionSlow: 1.5s;
+$transitionSuperSlow: 1.5s;
