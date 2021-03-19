@@ -14,6 +14,7 @@ $navMenuWidthLG: 100rem;
     z-index: 10;
     display: inline-block;
     text-align: right;
+    pointer-events: none;
 
     -webkit-transition: opacity $transitionFast ease;
     transition: opacity $transitionFast ease;
@@ -64,8 +65,19 @@ $navMenuWidthLG: 100rem;
     }
 }
 
+// #navCanvas{
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100vw;
+//     height: 100vw;
+//     pointer-events: none;
+//     z-index: -1;
+// }
+
 #navMenu.active{
     opacity: 1;
+    pointer-events: auto;
 
     -webkit-transition: opacity $transitionFast ease;
     transition: opacity $transitionFast ease;

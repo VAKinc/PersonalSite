@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Background from '../widgets/Background';
+import BarsBackground from '../widgets/BarsBackground';
 
 export default class Home extends React.Component {
     componentDidMount(){
@@ -10,7 +10,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Background />
+                <BarsBackground />
                 {/* <div id="contentArea">
                 </div> */}
             </React.Fragment>

@@ -53,7 +53,7 @@ class NavMenu extends React.Component {
         }
     }
 
-    handleLinkClick(){
+    handleLinkClick() {
         const open = this.state.isOpen;
 
         if (open) {
@@ -69,7 +69,7 @@ class NavMenu extends React.Component {
         if (isTopPage) {
             returnButton =
                 <li>
-                    <NavMenuLink to="/" label={trans.getTranslation('return_to_top')} activeOnlyWhenExact={true} handler={this.handleLinkClick}/>
+                    <NavMenuLink to="/" label={trans.getTranslation('return_to_top')} activeOnlyWhenExact={true} handler={this.handleLinkClick} />
                 </li>;
         } else {
             returnButton = null;
@@ -81,16 +81,16 @@ class NavMenu extends React.Component {
                     <NavMenuButtonClose className={this.state.isOpen ? "active" : ""} handler={this.handleNavMenuButtonClick} />
                     <ul>
                         <li>
-                            <NavMenuLink to="/about" label={trans.getTranslation('about')} handler={this.handleLinkClick}/>
+                            <NavMenuLink to="/about" label={trans.getTranslation('about')} handler={this.handleLinkClick} />
                         </li>
                         <li>
-                            <NavMenuLink to="/projects" label={trans.getTranslation('projects')} handler={this.handleLinkClick}/>
+                            <NavMenuLink to="/projects" label={trans.getTranslation('projects')} handler={this.handleLinkClick} />
                         </li>
                         <li>
-                            <NavMenuLink to="/skills" label={trans.getTranslation('skills')} handler={this.handleLinkClick}/>
+                            <NavMenuLink to="/skills" label={trans.getTranslation('skills')} handler={this.handleLinkClick} />
                         </li>
                         <li>
-                            <NavMenuLink to="/contact" label={trans.getTranslation('contact')} handler={this.handleLinkClick}/>
+                            <NavMenuLink to="/contact" label={trans.getTranslation('contact')} handler={this.handleLinkClick} />
                         </li>
                         {returnButton}
                     </ul>

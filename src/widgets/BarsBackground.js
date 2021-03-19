@@ -2,7 +2,7 @@ import React from 'react';
 
 import seedrandom from 'seedrandom';
 
-export default class Background extends React.Component {
+export default class BarsBackground extends React.Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +24,9 @@ export default class Background extends React.Component {
                 // "#E6021D"
             ],
             seed: "gravityrushisacoolgame",
-            bars: []
+            bars: [],
+            increments: 6,
+            animating: false,
         };
     }
 
@@ -34,13 +36,23 @@ export default class Background extends React.Component {
         cvs.height = window.innerHeight;
 
         this.setState({
-            canvas: cvs
+            canvas: cvs,
+            animating: true
         });
 
         window.addEventListener('resize', this.scaleCanvasToWindowSize)
 
         this.genBars();
         window.requestAnimationFrame(() => this.drawCanvas(cvs));
+    }
+
+    componentWillUnmount(){
+        this.setState({
+            bars: [],
+            animating: false
+        })
+
+        window.removeEventListener('resize', this.scaleCanvasToWindowSize)
     }
 
     scaleCanvasToWindowSize() {
@@ -57,11 +69,12 @@ export default class Background extends React.Component {
         const bars = [];
         const colors = this.state.colorOptions;
 
-        var window_thirds = Math.floor(window.innerHeight / 3);
+        var increments = this.state.increments;
+        var window_thirds = Math.floor(window.innerWidth / increments);
         var prevColor = null;
         var height = 100;
 
-        for (var x = 6; x > 0; x--) {
+        for (var x = increments; x > 0; x--) {
             var i = 0;
 
             while (i < window.innerHeight + height) {
@@ -74,17 +87,22 @@ export default class Background extends React.Component {
                 let length_offset = Math.floor(Math.random() * 5) * 20;
                 let dir = Math.random() < 0.5;
 
-                
+
                 let length;
                 let range;
                 let frame;
-                if(x === 6){
+                if (x === 6) {
                     range = 100;
                     frame = 255;
                     length = window.innerWidth + 30;
                 }
-                else{
-                    range = Math.floor(Math.random() * 20) * 10 + 50;
+                else {
+                    if(window.innerWidth < 992){
+                        range = Math.floor(Math.random() * 10) * 10;
+                    }
+                    else{
+                        range = Math.floor(Math.random() * 15) * 10 + 50;
+                    }
                     frame = Math.floor(Math.random() * 100)
                     if (dir) {
                         length = Math.floor(window_thirds * x) - length_offset;
@@ -112,69 +130,72 @@ export default class Background extends React.Component {
      * @param {Canvas} canvas - The canvas to be drawn on
      */
     drawCanvas(canvas) {
-        let ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (this.state.animating) {
+            let ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const bars = this.state.bars;
-        const diamond_width = 25;
-        const odd_row_offset = 50;
+            const bars = this.state.bars;
+            const diamond_width = 25;
+            const odd_row_offset = 50;
+            const increments = this.state.increments;
 
-        var i = 0;
-        var cur_row = null;
-        bars.forEach(function (bar) {
-            if(cur_row !== bar.row){
-                if(bar.row % 2 === 1){
-                    i = odd_row_offset;
+            var i = 0;
+            var cur_row = null;
+            bars.forEach(function (bar) {
+                if (cur_row !== bar.row) {
+                    if (bar.row % 2 === 1) {
+                        i = odd_row_offset;
+                    }
+                    else {
+                        i = 0;
+                    }
+
+                    cur_row = bar.row;
                 }
-                else{
-                    i = 0;
+
+                if (bar.row !== increments) {
+                    bar.oscillate();
                 }
 
-                cur_row = bar.row;
-            }
+                var grd = ctx.createLinearGradient(0, i + Math.floor(bar.height / 2), 0, i + bar.height);
+                grd.addColorStop(0, bar.color);
+                grd.addColorStop(1, "black");
 
-            if(bar.row !== 6){
-                bar.oscillate();
-            }
-            
-            var grd = ctx.createLinearGradient(0, i + Math.floor(bar.height / 2), 0, i + bar.height);
-            grd.addColorStop(0, bar.color);
-            grd.addColorStop(1, "black");
+                // ctx.fillStyle = bar.color;
+                // ctx.fillRect(0, i, bar.length, Math.floor(bar.height / 2));
 
-            // ctx.fillStyle = bar.color;
-            // ctx.fillRect(0, i, bar.length, Math.floor(bar.height / 2));
+                // ctx.fillStyle = grd;
+                // ctx.fillRect(0, i + Math.floor(bar.height / 2), bar.length, Math.ceil(bar.height / 2));
 
-            // ctx.fillStyle = grd;
-            // ctx.fillRect(0, i + Math.floor(bar.height / 2), bar.length, Math.ceil(bar.height / 2));
+                ctx.fillStyle = bar.color;
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(bar.length, i);
+                ctx.lineTo(bar.length - diamond_width, i + Math.ceil(bar.height / 2));
+                ctx.lineTo(0, i + Math.ceil(bar.height / 2));
+                ctx.fill();
 
-            ctx.fillStyle = bar.color;
-            ctx.beginPath();
-            ctx.moveTo(0, i);
-            ctx.lineTo(bar.length, i);
-            ctx.lineTo(bar.length - diamond_width, i + Math.ceil(bar.height / 2));
-            ctx.lineTo(0, i + Math.ceil(bar.height / 2));
-            ctx.fill();
+                ctx.fillStyle = bar.shadeColor(bar.color, -25);
+                ctx.beginPath();
+                ctx.moveTo(0, i + Math.floor(bar.height / 2));
+                ctx.lineTo(bar.length - diamond_width, i + Math.floor(bar.height / 2));
+                ctx.lineTo(bar.length, i + bar.height);
+                ctx.lineTo(0, i + bar.height);
+                ctx.fill();
 
-            ctx.fillStyle = bar.shadeColor(bar.color, -25);
-            ctx.beginPath();
-            ctx.moveTo(0, i + Math.floor(bar.height / 2));
-            ctx.lineTo(bar.length - diamond_width, i + Math.floor(bar.height / 2));
-            ctx.lineTo(bar.length, i + bar.height);
-            ctx.lineTo(0, i + bar.height);
-            ctx.fill();
+                ctx.fillStyle = bar.shadeColor(bar.color, -10);
+                ctx.beginPath();
+                ctx.moveTo(bar.length - 1, i);
+                ctx.lineTo(bar.length - diamond_width - 1, i + Math.floor(bar.height / 2));
+                ctx.lineTo(bar.length - 1, i + bar.height);
+                ctx.lineTo(bar.length + diamond_width, i + Math.floor(bar.height / 2));
+                ctx.fill();
 
-            ctx.fillStyle = bar.shadeColor(bar.color, -10);
-            ctx.beginPath();
-            ctx.moveTo(bar.length - 1, i);
-            ctx.lineTo(bar.length - diamond_width - 1, i + Math.floor(bar.height / 2));
-            ctx.lineTo(bar.length - 1, i + bar.height);
-            ctx.lineTo(bar.length + diamond_width, i + Math.floor(bar.height / 2));
-            ctx.fill();
+                i = i + bar.height;
+            });
 
-            i = i + bar.height;
-        });
-
-        window.requestAnimationFrame(() => this.drawCanvas(canvas));
+            window.requestAnimationFrame(() => this.drawCanvas(canvas));
+        }
     }
 
     render() {
@@ -237,22 +258,22 @@ class BackgroundBar {
 
     shadeColor(color, percent) {
 
-        var R = parseInt(color.substring(1,3),16);
-        var G = parseInt(color.substring(3,5),16);
-        var B = parseInt(color.substring(5,7),16);
-    
+        var R = parseInt(color.substring(1, 3), 16);
+        var G = parseInt(color.substring(3, 5), 16);
+        var B = parseInt(color.substring(5, 7), 16);
+
         R = parseInt(R * (100 + percent) / 100);
         G = parseInt(G * (100 + percent) / 100);
         B = parseInt(B * (100 + percent) / 100);
-    
-        R = (R<255)?R:255;  
-        G = (G<255)?G:255;  
-        B = (B<255)?B:255;  
-    
-        var RR = ((R.toString(16).length===1)?"0"+R.toString(16):R.toString(16));
-        var GG = ((G.toString(16).length===1)?"0"+G.toString(16):G.toString(16));
-        var BB = ((B.toString(16).length===1)?"0"+B.toString(16):B.toString(16));
-    
-        return "#"+RR+GG+BB;
+
+        R = (R < 255) ? R : 255;
+        G = (G < 255) ? G : 255;
+        B = (B < 255) ? B : 255;
+
+        var RR = ((R.toString(16).length === 1) ? "0" + R.toString(16) : R.toString(16));
+        var GG = ((G.toString(16).length === 1) ? "0" + G.toString(16) : G.toString(16));
+        var BB = ((B.toString(16).length === 1) ? "0" + B.toString(16) : B.toString(16));
+
+        return "#" + RR + GG + BB;
     }
 }
