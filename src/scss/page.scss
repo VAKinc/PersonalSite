@@ -1,17 +1,81 @@
 @import "./vars.scss";
 
-#contentArea{
-    margin: 5rem;
-    padding: 1rem;
-    background-color: black;
+body {
+    font-family: monospace;
+}
 
-    @include media-lg{
-        margin: 10rem;
+#contentArea {
+    position: fixed;
+    left: 50%;
+    top: 60%;
+    transform: translateX(-50%) translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: 1rem;
+    width: 80%;
+    height: 100%;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    // clip-path: polygon(0 1%, 0 0, 10% 0, 10% 2%, 20% 2%, 20% 0, 30% 0, 30% 4%, 40% 4%, 40% 0, 50% 0, 50% 1%, 60% 1%, 60% 0, 70% 0, 70% 3%, 80% 3%, 80% 0, 90% 0, 90% 1%, 100% 1%, 100% 100%, 0 100%);
+
+    @include media-lg {
+        font-size: 1.25rem;
+        top: 50%;
+        width: 50%;
+        height: 85%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    p {
+        position: relative;
+        white-space: pre-line;
+        color: black;
+        background: #19D1FF;
+        padding: 1rem;
+        margin: 1rem;
+        left: 1rem;
+
+        -webkit-transition: all $transitionFast ease;
+        transition: all $transitionFast ease;
+    }
+
+    p:nth-child(2n) {
+        width: 92%;
+        background: #FFDD00;
+        left: -1.25rem;
+    }
+
+    p:nth-child(3n) {
+        width: 85%;
+        background: #FF01D3;
+        left: 1.75rem;
+    }
+    p:nth-child(4n) {
+        width: 88%;
+        background: #FF2075;
+        left: -1.5rem;
+    }
+
+    p:hover{
         padding: 2rem;
+        left: 0rem;
+
+        -webkit-transition: all $transitionFast ease;
+        transition: all $transitionFast ease;
     }
 }
 
-#bgCanvas{
+#contentArea::-webkit-scrollbar {
+    display: none;
+}
+
+#bgCanvas {
     position: fixed;
     top: 0;
     left: 0;

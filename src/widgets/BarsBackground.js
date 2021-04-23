@@ -2,6 +2,8 @@ import React from 'react';
 
 import seedrandom from 'seedrandom';
 
+var animationRequest = null;
+
 export default class BarsBackground extends React.Component {
     constructor(props) {
         super(props);
@@ -43,7 +45,7 @@ export default class BarsBackground extends React.Component {
         window.addEventListener('resize', this.scaleCanvasToWindowSize)
 
         this.genBars();
-        window.requestAnimationFrame(() => this.drawCanvas(cvs));
+        animationRequest = window.requestAnimationFrame(() => this.drawCanvas(cvs));
     }
 
     componentWillUnmount(){
@@ -53,6 +55,7 @@ export default class BarsBackground extends React.Component {
         })
 
         window.removeEventListener('resize', this.scaleCanvasToWindowSize)
+        window.cancelAnimationFrame(animationRequest);
     }
 
     scaleCanvasToWindowSize() {
@@ -194,7 +197,7 @@ export default class BarsBackground extends React.Component {
                 i = i + bar.height;
             });
 
-            window.requestAnimationFrame(() => this.drawCanvas(canvas));
+            animationRequest = window.requestAnimationFrame(() => this.drawCanvas(canvas));
         }
     }
 

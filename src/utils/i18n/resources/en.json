@@ -1,0 +1,17 @@
+{
+    "translation":{
+        "nav": {
+            "home": "home",
+            "about": "about",
+            "projects": "projects",
+            "skills": "skills",
+            "contact": "contact"
+        },
+        "namecard":{
+            "greeting": "Hello, my name is",
+            "name": "Nolan Joseph",
+            "introduction": "I am a Lead System Engineer living in Tokyo, Japan."
+        },
+        "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vulputate et nunc a finibus. Fusce dignissim massa ipsum, nec posuere lorem placerat vel. Nullam sed pharetra tortor. Vestibulum mattis mauris neque, ut rhoncus dui venenatis ut. Nunc ligula massa, convallis ac hendrerit at, iaculis tempor risus. Nullam dolor metus, efficitur ac diam sit amet, varius molestie urna. Morbi posuere leo consectetur nunc condimentum, et suscipit tortor faucibus."
+    }
+}

@@ -6,12 +6,12 @@ import {
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { useTranslation } from 'react-i18next';
 
+import { PAGES } from '../utils/constants/pages.js';
+import '../scss/navmenu-sp.scss';
 
-import * as trans from '../utils/TranslationFunctions';
-import '../scss/navmenu.scss';
-
-class NavMenu extends React.Component {
+class NavMenuSP extends React.Component {
     constructor(props) {
         super(props);
 
@@ -69,29 +69,24 @@ class NavMenu extends React.Component {
         if (isTopPage) {
             returnButton =
                 <li>
-                    <NavMenuLink to="/" label={trans.getTranslation('return_to_top')} activeOnlyWhenExact={true} handler={this.handleLinkClick} />
+                    <NavMenuLink to="/" label={'hold'} activeOnlyWhenExact={true} handler={this.handleLinkClick} />
                 </li>;
         } else {
             returnButton = null;
         }
         return (
             <React.Fragment>
-                <nav id="navMenu" className={this.state.isOpen ? "active" : ""}>
+                <nav id="navMenuSP" className={this.state.isOpen ? "active" : ""}>
                     <div id="navMenuScreenWipe" className={this.state.isOpen ? "active" : ""}></div>
                     <NavMenuButtonClose className={this.state.isOpen ? "active" : ""} handler={this.handleNavMenuButtonClick} />
                     <ul>
-                        <li>
-                            <NavMenuLink to="/about" label={trans.getTranslation('about')} handler={this.handleLinkClick} />
-                        </li>
-                        <li>
-                            <NavMenuLink to="/projects" label={trans.getTranslation('projects')} handler={this.handleLinkClick} />
-                        </li>
-                        <li>
-                            <NavMenuLink to="/skills" label={trans.getTranslation('skills')} handler={this.handleLinkClick} />
-                        </li>
-                        <li>
-                            <NavMenuLink to="/contact" label={trans.getTranslation('contact')} handler={this.handleLinkClick} />
-                        </li>
+                        {Object.keys(PAGES).map(el => {
+                            return (
+                                <li>
+                                    <NavMenuLink to={"/" + el} label={'hold'} handler={this.handleLinkClick} />
+                                </li>
+                            );
+                        })}
                         {returnButton}
                     </ul>
                 </nav>
@@ -101,7 +96,7 @@ class NavMenu extends React.Component {
     }
 }
 
-export default withRouter(NavMenu);
+export default withRouter(NavMenuSP);
 
 
 
@@ -147,9 +142,11 @@ function NavMenuLink({ label, to, activeOnlyWhenExact, handler }) {
         exact: activeOnlyWhenExact
     });
 
+    const { t, i18n } = useTranslation();
+
     return (
         <div className={match ? "nav-link active" : "nav-link"} onClick={handler}>
-            <Link to={to}>{label}</Link>
+            <Link to={to}>{t(label)}</Link>
         </div>
     );
 }

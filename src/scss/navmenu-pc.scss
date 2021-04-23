@@ -1,0 +1,88 @@
+@import "./vars.scss";
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+#navMenuPC{
+    position: fixed;
+    font-size: 16px;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    color: white;
+    z-index: 10;
+    text-align: right;
+    background-color: rgba($color: #000000, $alpha: 0.85);
+
+    font-family: 'Major Mono Display', monospace;
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    a{
+        color: white;
+        text-decoration: none;
+    }
+
+    ul{
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin: 0 1rem;
+    }
+
+    .nav-link{
+        font-size: 3rem;
+        z-index: 10;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: fit-content;
+        margin: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        right: 0;
+        // border-radius: 15px;
+
+        -webkit-transition: all $transitionFast ease;
+        transition: all $transitionFast ease;
+    }
+
+    .nav-link.active{
+        // font-weight: 800;
+        background-color: white;
+
+        -webkit-transition: all $transitionFast ease;
+        transition: all $transitionFast ease;
+
+        a{
+            color: black
+        }
+    }
+
+    .nav-link:hover{
+       color: gray;
+    }
+}
+
+#languageSelector{
+    z-index: 10;
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    white-space: nowrap;
+    
+    .lang-button{
+        font-family: monospace;
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .lang-button.active{
+        font-weight: 900;
+    }
+}

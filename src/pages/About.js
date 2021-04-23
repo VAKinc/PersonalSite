@@ -1,20 +1,31 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import DotsBackground from '../widgets/DotsBackground';
-
-import * as trans from '../utils/TranslationFunctions';
 
 import '../scss/page.scss';
 
 export default class About extends React.Component {
     render() {
+        const { t } = this.props;
         return (
             <React.Fragment>
                 <DotsBackground />
+                <AboutMe />
             </React.Fragment>
-            // <div id="contentArea">
-            //     <h1>{trans.getTranslation('about')}</h1>
-            // </div>
         );
     }
+}
+
+function AboutMe(){
+    const { t } = useTranslation();
+
+    return (
+        <div id="contentArea">
+            <p>{t('lorem')}</p>
+            <p>{t('lorem')}</p>
+            <p>{t('lorem')}</p>
+            <p>{t('lorem')}</p>
+        </div>
+    );
 }

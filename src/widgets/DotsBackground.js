@@ -4,6 +4,7 @@ import seedrandom from 'seedrandom';
 
 var global_mouse_x = null;
 var global_mouse_y = null;
+var animationRequest = null;
 
 export default class DotsBackground extends React.Component {
     constructor(props) {
@@ -46,7 +47,7 @@ export default class DotsBackground extends React.Component {
         document.addEventListener('mousemove', this.handleMouseMovement);
 
         this.genDots();
-        window.requestAnimationFrame(() => this.drawCanvas(cvs));
+        animationRequest = window.requestAnimationFrame(() => this.drawCanvas(cvs));
     }
 
     componentWillUnmount(){
@@ -61,6 +62,8 @@ export default class DotsBackground extends React.Component {
 
         window.removeEventListener('resize', this.scaleCanvasToWindowSize)
         document.removeEventListener('mousemove', this.handleMouseMovement);
+
+        window.cancelAnimationFrame(animationRequest);
     }
 
     scaleCanvasToWindowSize() {
@@ -122,7 +125,7 @@ export default class DotsBackground extends React.Component {
                 }
             });
     
-            window.requestAnimationFrame(() => this.drawCanvas(canvas));
+            animationRequest = window.requestAnimationFrame(() => this.drawCanvas(canvas));
         }
     }
 

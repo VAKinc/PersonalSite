@@ -3,7 +3,7 @@
 $navMenuWidth: 20rem;
 $navMenuWidthLG: 100rem;
 
-#navMenu{
+#navMenuSP{
     position: fixed;
     font-size: 16px;
     top: 0;
@@ -75,7 +75,7 @@ $navMenuWidthLG: 100rem;
 //     z-index: -1;
 // }
 
-#navMenu.active{
+#navMenuSP.active{
     opacity: 1;
     pointer-events: auto;
 

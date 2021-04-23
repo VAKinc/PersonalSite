@@ -10,14 +10,15 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Skills from './pages/Skills';
 import Contact from './pages/Contact';
-import NavMenu from './widgets/NavMenu';
+import NavMenuSP from './widgets/NavMenuSP';
+import NavMenuPC from './widgets/NavMenuPC';
 
 export default class App extends React.Component {
     render() {
         return (
             <Router>
                 <div>
-                    <NavMenu />
+                    <NavMenuPC />
 
                     <Switch>
                         <Route exact path="/">
