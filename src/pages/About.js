@@ -21,11 +21,15 @@ function AboutMe(){
     const { t } = useTranslation();
 
     return (
-        <div id="contentArea">
-            <p>{t('lorem')}</p>
-            <p>{t('lorem')}</p>
-            <p>{t('lorem')}</p>
-            <p>{t('lorem')}</p>
-        </div>
+        <main id="contentArea">
+            <div id="aboutContent">
+                <div className="scroll-wrapper">
+                    <p>{t('lorem')}</p>
+                    <p>{t('lorem')}</p>
+                    <p>{t('lorem')}</p>
+                    <p>{t('lorem')}</p>
+                </div>
+            </div>
+        </main>
     );
 }

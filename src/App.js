@@ -17,30 +17,28 @@ export default class App extends React.Component {
     render() {
         return (
             <Router>
-                <div>
-                    <NavMenuPC />
+                <NavMenuPC />
 
-                    <Switch>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/projects">
-                            <Projects />
-                        </Route>
-                        <Route path="/skills">
-                            <Skills />
-                        </Route>
-                        <Route path="/contact">
-                            <Contact />
-                        </Route>
-                        <Route path="*">
-                            <h1>Page not found!</h1>
-                        </Route>
-                    </Switch>
-                </div>
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/about">
+                        <About />
+                    </Route>
+                    <Route path="/projects">
+                        <Projects />
+                    </Route>
+                    <Route path="/skills">
+                        <Skills />
+                    </Route>
+                    <Route path="/contact">
+                        <Contact />
+                    </Route>
+                    <Route path="*">
+                        <h1>Page not found!</h1>
+                    </Route>
+                </Switch>
             </Router>
         );
     }
