@@ -160,16 +160,6 @@ export default class BarsBackground extends React.Component {
                     bar.oscillate();
                 }
 
-                var grd = ctx.createLinearGradient(0, i + Math.floor(bar.height / 2), 0, i + bar.height);
-                grd.addColorStop(0, bar.color);
-                grd.addColorStop(1, "black");
-
-                // ctx.fillStyle = bar.color;
-                // ctx.fillRect(0, i, bar.length, Math.floor(bar.height / 2));
-
-                // ctx.fillStyle = grd;
-                // ctx.fillRect(0, i + Math.floor(bar.height / 2), bar.length, Math.ceil(bar.height / 2));
-
                 ctx.fillStyle = bar.color;
                 ctx.beginPath();
                 ctx.moveTo(0, i);

@@ -7,7 +7,6 @@ import '../scss/page.scss';
 
 export default class About extends React.Component {
     render() {
-        const { t } = this.props;
         return (
             <React.Fragment>
                 <DotsBackground />

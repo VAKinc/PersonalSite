@@ -1,9 +1,13 @@
 import React from 'react';
 
+import SineBackground from '../widgets/SineBackground';
+
 export default class Contact extends React.Component {
     render() {
         return (
-            <h1>{}</h1>
+            <React.Fragment>
+                <SineBackground />
+            </React.Fragment>
         );
     }
 }

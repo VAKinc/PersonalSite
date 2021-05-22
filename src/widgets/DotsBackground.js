@@ -2,8 +2,8 @@ import React from 'react';
 import interpolate from 'color-interpolate';
 import seedrandom from 'seedrandom';
 
-var global_mouse_x = null;
-var global_mouse_y = null;
+var current_mouse_x = null;
+var current_mouse_y = null;
 var animationRequest = null;
 
 export default class DotsBackground extends React.Component {
@@ -76,8 +76,8 @@ export default class DotsBackground extends React.Component {
 
 
     handleMouseMovement(e) {
-        global_mouse_x = e.pageX;
-        global_mouse_y = e.pageY;
+        current_mouse_x = e.pageX;
+        current_mouse_y = e.pageY;
     }
 
     genDots() {
@@ -114,7 +114,7 @@ export default class DotsBackground extends React.Component {
             const dots = this.state.dots;
     
             dots.forEach(function (dot) {
-                dot.gravitate(global_mouse_x, global_mouse_y);
+                dot.gravitate(current_mouse_x, current_mouse_y);
                 if(dot.size > 0){
                     let colormap = interpolate(['black', dot.color]);
     
@@ -139,7 +139,7 @@ export default class DotsBackground extends React.Component {
 /**
  * @param {number} x - The x position of the dot
  * @param {number} y - The y position of the dot
- * @param {number} color - The color of the dot that gets revealed as it grows
+ * @param {string} color - The color of the dot that gets revealed as it grows
  */
 
 class BackgroundDot {
