@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SineBackground from '../widgets/SineBackground';
+import SineBackground from './SineBackground';
 
 export default class Contact extends React.Component {
     render() {

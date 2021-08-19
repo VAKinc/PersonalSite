@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next'
 
-import BarsBackground from '../widgets/BarsBackground';
+import BarsBackground from './BarsBackground';
 
-import '../scss/home.scss';
+import './home.module.scss';
 
 export default class Home extends React.Component {
     componentDidMount() {

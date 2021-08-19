@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import { PAGES } from '../utils/constants/pages.js';
-import '../scss/navmenu-pc.scss';
+import './navmenu-pc.module.scss';
 
 class NavMenuPC extends React.Component {
     render() {

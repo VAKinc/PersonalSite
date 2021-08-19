@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DotsBackground from '../widgets/DotsBackground';
+import DotsBackground from './DotsBackground';
 
-import '../scss/page.scss';
+import '../../common/page.module.scss';
 
 export default class About extends React.Component {
     render() {

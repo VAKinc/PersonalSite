@@ -9,7 +9,7 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
 
 import { PAGES } from '../utils/constants/pages.js';
-import '../scss/navmenu-sp.scss';
+import './navmenu-sp.module.scss';
 
 class NavMenuSP extends React.Component {
     constructor(props) {
