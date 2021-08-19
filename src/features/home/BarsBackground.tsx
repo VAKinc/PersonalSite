@@ -1,13 +1,78 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import seedrandom from "seedrandom";
 
 import BackgroundBar from "./BackgroundBar";
 
+const scaleCanvasToWindowSize = (canvas: HTMLCanvasElement) => {
+	if (canvas) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+};
+
+const genBars = (
+	seed: string,
+	colorOptions: Array<string>,
+	increments: number
+) => {
+	seedrandom(seed, { global: true });
+
+	const bars: Array<BackgroundBar> = [];
+	const colors = colorOptions;
+
+	var window_thirds = Math.floor(window.innerWidth / increments);
+	var prevColor = null;
+	var height = 100;
+
+	for (var x = increments; x > 0; x--) {
+		var i = 0;
+
+		while (i < window.innerHeight + height) {
+			var color = colors[Math.floor(Math.random() * 5)];
+
+			while (color === prevColor) {
+				color = colors[Math.floor(Math.random() * 5)];
+			}
+
+			let length_offset = Math.floor(Math.random() * 5) * 20;
+			let dir = Math.random() < 0.5;
+
+			let length;
+			let range;
+			let frame;
+			if (x === increments) {
+				range = 100;
+				frame = 255;
+				length = window.innerWidth + 30;
+			} else {
+				if (window.innerWidth < 992) {
+					range = Math.floor(Math.random() * 10) * 10;
+				} else {
+					range = Math.floor(Math.random() * 15) * 10 + 50;
+				}
+				frame = Math.floor(Math.random() * 100);
+				if (dir) {
+					length = Math.floor(window_thirds * x) - length_offset;
+				} else {
+					length = Math.floor(window_thirds * x) + length_offset;
+				}
+			}
+
+			var bar = new BackgroundBar(height, length, color, dir, range, frame, x);
+			bars.push(bar);
+
+			prevColor = color;
+			i = i + height + 1;
+		}
+	}
+
+	return bars;
+};
+
 const BarsBackground: React.FC = () => {
 	const [canvas, setCanvas] = useState<HTMLCanvasElement>();
-	const [bars, setBars] = useState<Array<BackgroundBar>>([]);
 	const [isAnimating, setIsAnimating] = useState(false);
-	const [animationRequest, setAnimationRequest] = useState<number>(0);
+	const animationRef = useRef<number>();
 
 	const colorOptions = [
 		"#19D1FF",
@@ -24,103 +89,13 @@ const BarsBackground: React.FC = () => {
 	const seed = "gravityrushisacoolgame";
 	const increments = 6;
 
-	useEffect(() => {
-		const cvs: HTMLElement | null = document.getElementById("bgCanvas");
-		if (cvs && cvs instanceof HTMLCanvasElement) {
-			setCanvas(cvs);
-			setIsAnimating(true);
-
-			window.addEventListener("resize", scaleCanvasToWindowSize);
-
-			genBars();
-			setAnimationRequest(window.requestAnimationFrame(() => drawCanvas()));
-		}
-
-		return () => {
-			setBars([]);
-			setIsAnimating(false);
-
-			window.removeEventListener("resize", scaleCanvasToWindowSize);
-			window.cancelAnimationFrame(animationRequest);
-		};
-	}, []);
-
-	const scaleCanvasToWindowSize = () => {
-		// let cvs = this.state.canvas;
-		// cvs.width = window.innerWidth;
-		// cvs.height = window.innerHeight;
-
-		genBars();
-	};
-
-	const genBars = () => {
-		seedrandom(seed, { global: true });
-
-		const bars: Array<BackgroundBar> = [];
-		const colors = colorOptions;
-
-		var window_thirds = Math.floor(window.innerWidth / increments);
-		var prevColor = null;
-		var height = 100;
-
-		for (var x = increments; x > 0; x--) {
-			var i = 0;
-
-			while (i < window.innerHeight + height) {
-				var color = colors[Math.floor(Math.random() * 5)];
-
-				while (color === prevColor) {
-					color = colors[Math.floor(Math.random() * 5)];
-				}
-
-				let length_offset = Math.floor(Math.random() * 5) * 20;
-				let dir = Math.random() < 0.5;
-
-				let length;
-				let range;
-				let frame;
-				if (x === 6) {
-					range = 100;
-					frame = 255;
-					length = window.innerWidth + 30;
-				} else {
-					if (window.innerWidth < 992) {
-						range = Math.floor(Math.random() * 10) * 10;
-					} else {
-						range = Math.floor(Math.random() * 15) * 10 + 50;
-					}
-					frame = Math.floor(Math.random() * 100);
-					if (dir) {
-						length = Math.floor(window_thirds * x) - length_offset;
-					} else {
-						length = Math.floor(window_thirds * x) + length_offset;
-					}
-				}
-
-				var bar = new BackgroundBar(
-					height,
-					length,
-					color,
-					dir,
-					range,
-					frame,
-					x
-				);
-				bars.push(bar);
-
-				prevColor = color;
-				i = i + height + 1;
-			}
-		}
-
-		setBars(bars);
-	};
-
 	/**
 	 * @param {Canvas} canvas - The canvas to be drawn on
 	 */
-	const drawCanvas = () => {
-		if (isAnimating && canvas) {
+	const drawCanvas = (bars: Array<BackgroundBar>) => {
+		if (canvas) {
+			console.log("Is animating");
+
 			const ctx = canvas.getContext("2d");
 			if (ctx) {
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -181,15 +156,54 @@ const BarsBackground: React.FC = () => {
 					i = i + bar.height;
 				});
 
-				setAnimationRequest(window.requestAnimationFrame(() => drawCanvas()));
+				animationRef.current = requestAnimationFrame(() => {
+					drawCanvas(bars);
+				});
 			}
 		}
 	};
 
+	// Setup on component load
+	useEffect(() => {
+		const cvs: HTMLElement | null = document.getElementById("bgCanvas");
+		if (cvs && cvs instanceof HTMLCanvasElement) {
+			console.log("Found canvas");
+			setCanvas(cvs);
+			setIsAnimating(true);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (canvas) {
+			window.addEventListener("resize", () => {
+				scaleCanvasToWindowSize(canvas);
+			});
+		}
+
+		let bars = genBars(seed, colorOptions, increments);
+
+		animationRef.current = requestAnimationFrame(() => {
+			drawCanvas(bars);
+		});
+
+		return () => {
+			setIsAnimating(false);
+			if (animationRef.current) {
+				cancelAnimationFrame(animationRef.current);
+			}
+			if (canvas) {
+				window.removeEventListener("resize", () => {
+					scaleCanvasToWindowSize(canvas);
+				});
+			}
+		};
+	}, [canvas, seed, colorOptions, increments, isAnimating]);
+
 	return (
 		<canvas
 			id="bgCanvas"
-			style={{ widows: window.innerWidth, height: window.innerHeight }}
+			width={window.innerWidth}
+			height={window.innerHeight}
 		></canvas>
 	);
 };
